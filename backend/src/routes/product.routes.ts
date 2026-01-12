@@ -9,13 +9,24 @@ router.get("/", async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
     const pageSize = parseInt(req.query.pageSize as string) || 20;
     const skip = (page - 1) * pageSize;
+    const q = req.query.q as string | undefined;
+
+    const where = q
+      ? {
+          OR: [
+            { name: { contains: q, mode: "insensitive" as const } },
+            { description: { contains: q, mode: "insensitive" as const } },
+          ],
+        }
+      : undefined;
 
     const products = await prisma.product.findMany({
+      where,
       skip,
       take: pageSize,
     });
 
-    const total = await prisma.product.count();
+    const total = await prisma.product.count({ where });
 
     res.json({
       message: "fetch product data success",
