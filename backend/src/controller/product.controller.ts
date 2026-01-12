@@ -1,11 +1,17 @@
 import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
 
+type SortType = "price" | "rating" | "created_at" | "relevance" | undefined;
+type SortMethodType = "asc" | "desc";
+
 export const getProducts = async (req: Request, res: Response) => {
   try {
     // pagination query param
     const page = parseInt(req.query.page as string) || 1;
-    const pageSize = parseInt(req.query.pageSize as string) || 20;
+    const pageSize = Math.min(
+      parseInt(req.query.pageSize as string) || 20,
+      100,
+    );
     const skip = (page - 1) * pageSize;
 
     // search and filter query param
@@ -23,6 +29,20 @@ export const getProducts = async (req: Request, res: Response) => {
         ? category.map((val) => parseInt(val as string))
         : [parseInt(category as string)]
       : undefined;
+
+    // sort and method query param
+    const sort = req.query.sort as SortType;
+    const method: SortMethodType =
+      (req.query.method as string) === "asc" ? "asc" : "desc";
+
+    const orderBy =
+      sort === "price"
+        ? { price: method }
+        : sort === "rating"
+          ? { rating: method }
+          : sort === "created_at"
+            ? { createdAt: method }
+            : undefined;
 
     const where = {
       ...(q && {
@@ -53,6 +73,8 @@ export const getProducts = async (req: Request, res: Response) => {
       where,
       skip,
       take: pageSize,
+      orderBy,
+      include: { images: true, categories: true },
     });
 
     const total = await prisma.product.count({ where });
