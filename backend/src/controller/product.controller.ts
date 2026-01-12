@@ -31,18 +31,25 @@ export const getProducts = async (req: Request, res: Response) => {
       : undefined;
 
     // sort and method query param
-    const sort = req.query.sort as SortType;
+    const sort = (req.query.sort as SortType) || (q ? "relevance" : undefined);
     const method: SortMethodType =
       (req.query.method as string) === "asc" ? "asc" : "desc";
 
-    const orderBy =
-      sort === "price"
-        ? { price: method }
-        : sort === "rating"
-          ? { rating: method }
-          : sort === "created_at"
-            ? { createdAt: method }
-            : undefined;
+    const getOrderBy = (sort: SortType, method: SortMethodType) => {
+      switch (sort) {
+        case "price":
+          return { price: method };
+        case "rating":
+          return { rating: method };
+        case "created_at":
+          return { createdAt: method };
+        case "relevance":
+        default:
+          return undefined;
+      }
+    };
+
+    const orderBy = getOrderBy(sort, method);
 
     const where = {
       ...(q && {
