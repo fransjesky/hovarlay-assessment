@@ -23,13 +23,13 @@ model User {
 model Product {
   id          Int        @id @default(autoincrement())
   name        String
-  description String
   price       Float
+  description String
   rating      Float
   inStock     Boolean
-  createdAt   DateTime   @default(now())
   images      Image[]
   categories  Category[]
+  createdAt   DateTime   @default(now())
 }
 
 model Image {
