@@ -99,7 +99,7 @@ export const getProducts = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       message: "failed to fetch products",
-      error: error instanceof Error ? error.message : "Unknown error occurred",
+      error: error instanceof Error ? error.message : "unknown error occurred",
     });
   }
 };
@@ -110,7 +110,7 @@ export const getProductById = async (req: Request, res: Response) => {
 
     if (isNaN(id)) {
       return res.status(400).json({
-        message: "Invalid product id",
+        message: "invalid product id",
       });
     }
 
@@ -121,10 +121,11 @@ export const getProductById = async (req: Request, res: Response) => {
 
     if (!product) {
       return res.status(404).json({
-        message: "Product not found",
+        message: "product not found",
         data: product,
       });
     }
+
     res.json({
       message: "fetch product data success",
       data: product,
@@ -132,7 +133,7 @@ export const getProductById = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       message: "failed to fetch product",
-      error: error instanceof Error ? error.message : "Unknown error occurred",
+      error: error instanceof Error ? error.message : "unknown error occurred",
     });
   }
 };
