@@ -29,7 +29,7 @@ export const login = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { userId: user.id, email: user.email },
-      process.env.SECRET_KEY!,
+      process.env.JWT_SECRET!,
       { expiresIn: "24h" },
     );
 
@@ -44,11 +44,52 @@ export const login = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       message: "login failed",
-      error: error instanceof Error ? error.message : "Unknown error occurred",
+      error: error instanceof Error ? error.message : "unknown error occurred",
     });
   }
 };
 
 export const logout = async (_: Request, res: Response) => {
   res.json({ message: "logout successful" });
+};
+
+export const register = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(401)
+        .json({ message: "email and password is required" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (user) {
+      return res.status(400).json({ message: "email already exist" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    res.json({
+      message: "register successful",
+      data: {
+        email,
+        password: hashedPassword,
+      },
+    });
+  } catch (error) {
+    res.json({ message: "register failed" });
+  }
 };

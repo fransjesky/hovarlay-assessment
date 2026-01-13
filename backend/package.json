@@ -7,6 +7,9 @@
     "build": "rm -rf dist/ && tsc",
     "dev": "tsx watch dist/src/index.js"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
