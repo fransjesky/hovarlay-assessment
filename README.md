@@ -4,7 +4,7 @@ This is a monorepo for my technical assessment for Hovarlay, a full-stack produc
 
 ## Prerequisites
 
-- Node.js (v18 or higher)
+- Node.js v24.0+
 - PostgreSQL
 
 ## Setup
