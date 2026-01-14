@@ -27,8 +27,6 @@ sudo -iu postgres psql
 
 ```sql
 CREATE DATABASE hovarlay_db;
-ALTER USER postgres WITH PASSWORD 'your_password';
-\q
 ```
 
 ### 2. Backend
@@ -43,8 +41,6 @@ Create a `.env` file based on `.env.example`:
 ```bash
 cp .env.example .env
 ```
-
-Update the `DATABASE_URL` in `.env` with your password.
 
 Run migrations and seed the database:
 
