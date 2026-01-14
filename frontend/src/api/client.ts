@@ -18,10 +18,14 @@ export async function apiClient<T>(
   const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
   if (response.status === 401) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/login";
-    throw new Error("Unauthorized");
+    // Only redirect if not on login page (avoid redirect loop on failed login)
+    if (!endpoint.includes("/auth/login")) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message || "Invalid email or password");
   }
 
   if (!response.ok) {

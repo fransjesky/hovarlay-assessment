@@ -1,161 +1,35 @@
-:root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #213547;
-  background-color: #f5f5f5;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import "tailwindcss";
+
+/* Custom base styles */
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+  }
+
+  #root {
+    @apply w-full min-h-screen;
+  }
 }
 
-* {
-  box-sizing: border-box;
-}
+/* Loading skeleton animation */
+@layer utilities {
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-#root {
-  width: 100%;
-}
-
-a {
-  color: #646cff;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
-button {
-  border-radius: 6px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #646cff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s, opacity 0.2s;
-}
-
-button:hover {
-  background-color: #535bf2;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-input,
-select {
-  padding: 0.5em 0.75em;
-  font-size: 1em;
-  font-family: inherit;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background-color: white;
-}
-
-input:focus,
-select:focus {
-  outline: 2px solid #646cff;
-  outline-offset: 1px;
-}
-
-label {
-  font-weight: 500;
-  display: block;
-  margin-bottom: 0.25em;
-}
-
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  font-size: 1.2em;
-  color: #666;
-}
-
-.error-message {
-  background-color: #fee2e2;
-  color: #dc2626;
-  padding: 1em;
-  border-radius: 6px;
-  margin-bottom: 1em;
-}
-
-/* Button variants */
-.btn {
-  border-radius: 6px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background-color 0.2s, opacity 0.2s;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background-color: #646cff;
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #535bf2;
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: #666;
-  border: 1px solid #ddd;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background-color: #f5f5f5;
-}
-
-.btn-danger {
-  background-color: #dc2626;
-  color: white;
-}
-
-.btn-danger:hover:not(:disabled) {
-  background-color: #b91c1c;
-}
-
-/* Checkbox styles */
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: normal;
-  cursor: pointer;
-}
-
-.checkbox-label input[type="checkbox"] {
-  width: auto;
-  cursor: pointer;
-}
-
-/* Input error */
-.input-error {
-  color: #dc2626;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      #f0f0f0 25%,
+      #e0e0e0 50%,
+      #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
 }
